@@ -1,0 +1,250 @@
+<head>
+    <style>
+           .card-container {
+        margin-bottom: 100px; /* Add space between rows */
+    }
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        
+ 
+
+    </style>
+</head>
+<body>
+  
+    <!-- Spinner Start -->
+    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-grow text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
+
+    {% include "header.html"%}
+
+    <!-- Page Header Start -->
+    <div class="container-fluid page-header py-5" style="margin-bottom: 3rem;">
+        <div class="container py-5">
+            <h1 class="display-3 text-white-new mb-3 animated slideInDown" ><a href="#prediction_form" class="display-3 text-white-new mb-3 animated slideInDown" ><p  style="color: #BEB7A4;">Make your  <span class="text-primary"> Prediction Now</span> </p></a></h1>
+            <nav aria-label="breadcrumb animated slideInDown">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a class="text-white-new" href="/">Home</a></li>
+                    <li class="breadcrumb-item text-primary active" aria-current="page">Predict</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+    <!-- Page Header End -->
+
+    <div class="container-fluid overflow-hidden py-5 px-lg-0" id="prediction_form">
+        <div class="container contact-page py-5 px-lg-0" >
+            <div class="row g-5 mx-lg-0" >
+                <div class="col-md-10 contact-form wow fadeIn" data-wow-delay="0.1s">
+                    <h6 class="text-secondary text-uppercase" >Predict Your Price</h6>
+                    <h1 class="mb-4" >House Price Prediction</h1>
+                    <p class="text-dark mb-4">Enter the details of your house below to predict the approximate pricing of you house.</p>
+                    <div class="bg-light shadow p-4">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="row g-4">
+                                <!-- <div class="col-md-4">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="city"  name="city" placeholder="Ex:Kathmandu,Bhaktapur,Lalitpur"))" required>
+                                        <label for="city">City</label>
+                                    </div>
+                                </div> -->
+                            <div class="row g-4">
+                                <div class="col-md-4">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="land"  name="land" placeholder="Land (Sqft)" required>
+                                        <label for="land">Land Area in Square feet</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="floor" name="floor" placeholder="Floors" required>
+                                        <label for="floor">Floors</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="road" name="road" placeholder="Road Access" required>
+                                        <label for="road">Road</label>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="bed" name="bed" placeholder="Bedrooms" required>
+                                        <label for="bed">Bedrooms</label>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="bath" name="bath" placeholder="Bathrooms" required>
+                                        <label for="bath">Bathrooms</label>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-floating">
+                                        <select class="form-select" id="face" name="face" required>
+                                            <option value="" disabled selected>Choose a facing</option>
+                                            {% for face in context.faces %}
+                                                <option value="{{ face }}">{{ face }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <label for="face">Facing</label>
+                                
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-floating">
+                                        <select class="form-select" id="address" name="address" required>
+                                            <option value="" disabled selected>Choose a Address</option>
+                                            {% for address in context.addresses %}
+                                                <option value="{{ address }}">{{ address }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <label for="address">Address</label>
+                                    </div>
+                                </div> 
+                                <div class="col-12">
+                                    <button class="btn btn-primary w-100 py-3" type="submit" style="background-color: #2F323A;">Predict</button>
+                                </div>                                                            
+                            </div>
+                        </form>
+                        {% if price %}
+                        <div class="col-12">
+                            <div class="form-floating">
+                                <h4>Your Predicted House price is रू. {{price}}</h4>
+
+                            </div>
+                        </div>
+                        {% endif%}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <p style = "margin-left: 100px;">
+        <h2 style="margin-left: 100px;">
+            Recommended houses for your predicted price:
+        </h2>
+    </p> -->
+    <!-- <div class="container">
+      {% if recommendation.combined_data %}  
+        {% for url, image,title in recommendation.combined_data %}
+        {% if image is not none and title is not none %}
+             
+        {% if forloop.counter0|divisibleby:3 %}
+        <div class="row card-container">
+         {% endif %}
+                <div class="col">
+                    <div class="card" style="width: 18rem;">
+                        <img src="{{ image }}" class="card-img-top" alt="..." width="500" height="300">
+                        <h5 class="card-title">{{ title }}</h5>
+                        <p class="card-text"></p>
+                        <a target="_blank" href="{{ url }}" class="btn btn-primary">Click for more details</a>
+                    </div>
+                </div>
+                {% if forloop.counter|divisibleby:3 or forloop.last %}
+            </div>
+        {% endif %}
+        
+            {% endif %}
+        
+            {% endfor %}
+        {% else %}
+            <p>No data available.</p>
+        {% endif %} -->
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function () 
+        {
+            const landInput = document.getElementById('land');
+            const floorInput=document.getElementById('floor');
+            const roadInput=document.getElementById('road');
+            const bedroomInput=document.getElementById('bed');
+            const bathroomInput=document.getElementById('bath');
+    
+            landInput.addEventListener('input', function () 
+            {
+                
+                this.value = this.value.replace(/[^0-9.]/g, '');
+    
+               
+                const decimalCount = (this.value.match(/\./g) || []).length;
+                if (decimalCount > 1) 
+                {
+                    this.value = this.value.replace(/\.+$/, '');
+                }
+            }
+            );
+            
+           roadInput.addEventListener('input',function()
+           {
+            this.value = this.value.replace(/[^0-9.]/g, '');
+    
+               
+                const decimalCount = (this.value.match(/\./g) || []).length;
+                if (decimalCount > 1) 
+                {
+                    this.value = this.value.replace(/\.+$/, '');
+                }
+            });
+
+            floorInput.addEventListener('input',function()
+           {
+            this.value = this.value.replace(/[^0-9.]/g, '');
+    
+               
+                const decimalCount = (this.value.match(/\./g) || []).length;
+                if (decimalCount > 1) 
+                {
+                    this.value = this.value.replace(/\.+$/, '');
+                }
+            });
+            bedroomInput.addEventListener('input',function()
+           {
+            this.value = this.value.replace(/[^0-9]/g, '');
+          
+            });
+            bathroomInput.addEventListener('input',function()
+           {
+            this.value = this.value.replace(/[^0-9]/g, '');
+          
+            });
+            
+        });
+        
+    </script>
+    
+    
+    
+    
+    {% include "footer.html"%}
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-0 back-to-top"><i class="bi bi-arrow-up"></i></a>
+
+
+    <script>
+  window.addEventListener('load', function () {
+      const spinner = document.getElementById('spinner');
+      if (spinner) {
+          spinner.classList.remove('show');
+          spinner.style.display = 'none';
+      }
+  });
+</script>
+</body>
+
+
+
+
+
+</html>
